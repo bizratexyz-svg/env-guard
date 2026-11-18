@@ -1,5 +1,8 @@
 # env-guard
 
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 A zero-dependency Python CLI tool to diff `.env` against `.env.example`, validate common value formats, detect leaked secrets, and safely generate `.env.example` templates.
 
 ## Features
@@ -53,6 +56,28 @@ DEBUG=false
 
 # @type: email
 ADMIN_EMAIL=admin@example.com
+```
+
+## Example Output
+
+```text
+$ uv run env-guard --strict
+env-guard report
+────────────────────────────────────────
+
+✗ Missing keys (in .env.example but not .env):
+  - REDIS_URL
+
+! Extra keys (in .env but not .env.example):
+  - LOCAL_DEBUG_FLAG
+
+✗ Format validation errors (in .env):
+  - PORT (line 4): expected int, got 'abc'
+
+✗ Potential hardcoded secrets detected:
+  - .env.example:7 [OpenAI / Stripe API key] (sk-pro...9xQz)
+
+✗ Errors: 3 | Warnings: 1
 ```
 
 ## License
